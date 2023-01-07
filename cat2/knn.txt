@@ -1,0 +1,21 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+data=pd.read_csv("Iris.csv")
+data
+x=data.iloc[:, [1,2,3,4]].values
+y=data.iloc[:,-1]
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.20)
+from sklearn.preprocessing import StandardScaler
+scaler=StandardScaler()
+scaler.fit(x_train)
+x_train=scaler.transform(x_train)
+x_test=scaler.transform(x_test)
+from sklearn.neighbors import KNeighborsClassifier
+knn=KNeighborsClassifier(n_neighbors=5)
+knn.fit(x_train,y_train)
+y_pred=knn.predict(x_test)
+from sklearn.metrics import classification_report, confusion_matrix 
+print(classification_report(y_test, y_pred))
+print(confusion_matrix(y_test, y_pred))
